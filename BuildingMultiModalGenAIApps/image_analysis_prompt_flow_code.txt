@@ -1,0 +1,46 @@
+image_analysis: 
+-------------------------------------------
+import os
+import json
+import requests
+from promptflow import tool
+
+
+key="YOUR_PRIMARY_KEY"
+endpoint = "YOUR_CV_ENDPOINT"
+
+@tool
+def analyse_image(url: str) -> str:
+    url = str(endpoint) + "computervision/imageanalysis:analyze?api-version=2024-02-01&features=denseCaptions"
+    data = {
+        "url": "https://cdn.britannica.com/79/232779-050-6B0411D7/German-Shepherd-dog-Alsatian.jpg"
+    }
+    headers = {
+        "Content-Type":"application/json",
+        "Ocp-Apim-Subscription-Key":key
+    }
+
+    result = requests.post(url = url, headers = headers, json=data).json()
+
+    dense_captions=""
+
+    if (result['denseCaptionsResult']):
+        for caption in result['denseCaptionsResult']['values']:
+            dense_captions = dense_captions + caption["text"] + "\n"
+    
+    return dense_captions
+------------------------------------------
+
+Summarisation
+-------------------------------------------
+# system:
+You will be provided with multiple captions for an image that is analysed using azure computer vision resource.
+Your work is to answer the user query based upon information grabbed about the image from these dense captions.
+
+If you do not have sufficient knowledge about the image from these dense captions to answer the user query
+then please respond with: 
+"I am sorry but I don't have sufficient knowledge to answer your query"
+
+# user:
+user query: {{question}}
+dense captions: {{dense_captions}}

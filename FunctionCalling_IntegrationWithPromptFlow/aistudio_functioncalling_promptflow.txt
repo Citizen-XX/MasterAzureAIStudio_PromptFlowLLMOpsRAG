@@ -1,0 +1,66 @@
+function definition:
+[{"name":"get_weather_description","description":"get the air quality index of a particular location","parameters":{"type":"object","properties":{"location":{"type":"string","description":"The city and state, e.g. San Francisco, CA"}},"required":["location"]}}]
+
+
+
+fetch_api_data segment:
+
+from promptflow import tool
+import requests
+import json
+
+api_key="YOUR_API_KEY"
+
+# The inputs section will change based on the arguments of the tool function, after you save the code
+# Adding type to arguments and return value will help the system show the types properly
+# Please update the function name/signature per need
+def get_weather_description(location: str)->str:
+    url="http://api.weatherapi.com/v1/current.json?q=" + str(location) + "&key=" + str(api_key) + "&aqi=yes" #setting the url to be sent API request to
+    
+    response = requests.get(url).json() #sending GET request to that URL
+
+    #storing values of different AQI parameters
+    aqi = response["current"]["air_quality"]
+    co_concentration = aqi["co"]
+    no2_concentration = aqi["no2"]
+    o3_concentration = aqi["o3"]
+    so2_concentration = aqi["so2"]
+    pm2_5_concentration = aqi["pm2_5"]
+    pm10_concentration = aqi["pm10"]
+    
+    final_response = "CO concentration : {}, NO2 concentration : {}, O3 concentration: {}, SO2 concentration: {}, PM2.5 concentration: {}, PM10 concentration: {}".format(co_concentration, no2_concentration, o3_concentration, so2_concentration, pm2_5_concentration, pm10_concentration )
+    return final_response
+
+@tool
+def run_functions(response_message: dict)->str:
+    function_call = response_message.get("function_call", None)
+    if function_call and "name" in function_call and "arguments" in function_call:
+            function_name = function_call["name"]
+            function_args = json.loads(function_call["arguments"])
+            print(function_args)
+            result = globals()[function_name](**function_args)
+    else:
+            print("No function call")
+            if isinstance(response_message, dict):
+                result = response_message.get("content", "")
+            else:
+                result = response_message
+    return result
+
+
+
+generate final response segment:
+
+# system:
+you are a helpful AI assistant, meant to assist the user query based upon the user input.
+you will be provided with the user question and a response to that user question.
+your work is to make sure that the response aligns to the user question.
+you are allowed to make changes to the response to the user question 
+and present it in a way the resonates appropriately to the user question.
+
+# user:
+{{user_question}}
+{{gpt_response}}
+
+
+
