@@ -1,3 +1,4 @@
-myvirtualenv/
+my_env/
 .promptflow/
 *.env
+requirements.txt
