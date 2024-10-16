@@ -1,0 +1,3 @@
+entry: run:start_chat_with_model
+environment:
+  python_requirements_txt: requirements.txt
