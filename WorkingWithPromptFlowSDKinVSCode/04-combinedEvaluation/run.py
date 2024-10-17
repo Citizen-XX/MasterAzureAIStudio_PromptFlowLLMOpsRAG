@@ -6,7 +6,8 @@ from promptflow.core import Prompty, AzureOpenAIModelConfiguration
 from promptflow.evals.evaluators import RelevanceEvaluator, GroundednessEvaluator, ViolenceEvaluator
 
 #opening the csv file in reading mode using pandas dataframe
-df=pd.read_csv('evaluation_ai_studio.csv')
+csv_file_path = r'WorkingWithPromptFlowSDKinVSCode\04-combinedEvaluation\evaluation_ai_studio.csv'
+df=pd.read_csv(csv_file_path)
 num_columns = df.shape[1] #counting the number of columns in the csv file
 num_rows = df.shape[0] #counting the number of rows in the csv file
 
@@ -69,5 +70,5 @@ df['GPT Relevance Score'] = relevance_score_list
 df['GPT Groundedness Score'] = groundedness_score_list
 
 #saving the csv file with the relevance and groundedness scores
-df.to_csv('evaluation_ai_studio.csv', index=False)
+df.to_csv('WorkingWithPromptFlowSDKinVSCode\04-combinedEvaluation\evaluated_ai_studio.csv', index=False)
 

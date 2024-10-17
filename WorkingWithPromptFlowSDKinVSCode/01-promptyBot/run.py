@@ -2,7 +2,6 @@ import os
 from promptflow.tracing import start_trace
 import dotenv
 from dotenv import load_dotenv
-from dotenv import load_dotenv
 from promptflow.core import Prompty, AzureOpenAIModelConfiguration
 
 #starting the trace
@@ -19,7 +18,8 @@ model_config = AzureOpenAIModelConfiguration(
 )
 
 #creating the Prompty object
-prompty = Prompty.load("chat.prompty", model={'configuration': model_config})
+prompty_file_path = r'WorkingWithPromptFlowSDKinVSCode\01-promptyBot\chat.prompty'
+prompty = Prompty.load(prompty_file_path, model={'configuration': model_config})
 
 #prompting the user with the chat history and chat input
 result = prompty(

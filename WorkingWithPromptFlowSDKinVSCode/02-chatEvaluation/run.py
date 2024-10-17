@@ -19,7 +19,8 @@ model_config = AzureOpenAIModelConfiguration(
 )
 
 #creating the Prompty object
-prompty = Prompty.load("chat.prompty", model={'configuration': model_config})
+promptly_file_path = r'WorkingWithPromptFlowSDKinVSCode\02-chatEvaluation\chat.prompty'
+prompty = Prompty.load(promptly_file_path, model={'configuration': model_config})
 
 #prompting the user with the chat history and chat input
 response = prompty(

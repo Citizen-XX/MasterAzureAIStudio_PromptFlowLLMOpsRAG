@@ -18,7 +18,8 @@ model_config = AzureOpenAIModelConfiguration(
 )
 
 #loading the custom prompt evaluator
-courtesy_eval = load_flow(source="evaluator.prompty", model = {"configuration": model_config})
+prompty_file_path = r'WorkingWithPromptFlowSDKinVSCode\03-promptEvaluator\evaluator.prompty'
+courtesy_eval = load_flow(source=prompty_file_path, model = {"configuration": model_config})
 #evaluating the courtesy score
 courtesy_score = courtesy_eval(question="hello how are you?", answer="I am fine. You need to ask me that again")
 

@@ -3,15 +3,20 @@ name: Chat Prompt
 description: a basic prompt that uses the chat API to answer questions
 model:
  api: chat
+  #chat or completion
  configuration: 
   type: azure_openai
  parameters:
   max_tokens: 256
   temperature: 0.2
+  #0 to 1 inclusive (0 is deterministic, 1 is creative) 
 inputs:
+#inputs of the gpt engine
   chat_input:
+  #the users query
    type: string
   chat_history:
+  #we'll prove the chat history ourselves
    type: list
    is_chat_history: true 
    default: []
@@ -19,6 +24,7 @@ outputs:
   response:
     type: string
 sample:
+#sample query od the user
     chat_input: what is the meaning of life?
 ---
 system:
